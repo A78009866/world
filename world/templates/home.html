@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            direction: rtl;
+            padding-top: 120px;
+            padding-bottom: 70px;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 22px;
+            margin-right: 10px;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info span {
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logout-btn i {
+            margin-left: 5px;
+        }
+        
+        .top-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            background-color: var(--white);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 12px;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 3px;
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .posts-container {
+            padding: 15px;
+        }
+        
+        .post-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .post-author {
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        
+        .post-time {
+            font-size: 12px;
+            color: #777;
+            margin-top: 3px;
+        }
+        
+        .post-content {
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .post-actions {
+            display: flex;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+            color: #777;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .post-action i {
+            margin-left: 5px;
+            font-size: 18px;
+        }
+        
+        .create-post-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 90;
+        }
+        
+        .comments-section {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            display: none;
+        }
+        
+        .comments-section.show {
+            display: block;
+        }
+        
+        .comment-form {
+            margin-top: 10px;
+        }
+        
+        .comment-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            resize: none;
+            font-size: 14px;
+        }
+        
+        .comment-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .comment {
+            margin: 8px 0;
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .like-btn {
+            cursor: pointer;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding-top: 110px;
+            }
+            
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .header h1 {
+                font-size: 16px;
+            }
+            
+            .top-nav {
+                top: 56px;
+                padding: 10px 0;
+            }
+            
+            .nav-item i {
+                font-size: 18px;
+            }
+            
+            .post-card {
+                padding: 12px;
+            }
+            
+            .post-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            
+            .create-post-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+                bottom: 15px;
+                left: 15px;
+            }
+        }
+        .follow-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .follow-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .follow-btn.following {
+            background-color: #ccc;
+        }
+        .notification-badge {
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 10px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+    
+    .nav-item {
+        position: relative;
+    }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-leaf" style="margin-left: 8px;"></i>
+            WORLD
+        </div>
+        
+        <div class="user-info">
+            <span>{{ request.user.full_name }}</span>
+            <button class="logout-btn" onclick="window.location.href='/logout/'">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="top-nav">
+        <a href="/" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="/profile/{{ request.user.id }}/" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>الملف الشخصي</span>
+        </a>
+        <a href="/notifications/" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>الإشعارات</span>
+            {% if unread_notifications_count > 0 %}
+            <span class="notification-badge">{{ unread_notifications_count }}</span>
+            {% endif %}
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>الإعدادات</span>
+        </a>
+    </div>
+    
+    <div class="posts-container">
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="post-header">
+                <div class="post-avatar" onclick="window.location.href='/profile/{{ post.author.id }}/'">{{ post.author.username|first|upper }}</div>
+                <div style="flex-grow: 1;" onclick="window.location.href='/profile/{{ post.author.id }}/'">
+                    <div class="post-author">{{ post.author.full_name }}</div>
+                    <div class="post-time">{{ post.created_at|timesince }} مضت</div>
+                </div>
+                {% if request.user != post.author %}
+                <button class="follow-btn {% if post.author in request.user.following.all %}following{% endif %}" data-user-id="{{ post.author.id }}">
+                    {% if post.author in request.user.following.all %}
+                        متابع
+                    {% else %}
+                        متابعة
+                    {% endif %}
+                </button>
+                {% endif %}
+            </div>
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+            <div class="post-actions">
+                <div class="post-action like-btn" data-post-id="{{ post.id }}">
+                    <i class="{% if request.user in post.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>
+                    <span class="like-count">{{ post.likes.count }}</span>
+                </div>
+                <div class="post-action comment-toggle" data-post-id="{{ post.id }}">
+                    <i class="far fa-comment"></i>
+                    <span>{{ post.comments.count }}</span>
+                </div>
+            </div>
+            
+            <!-- قسم التعليقات -->
+            <div class="comments-section" id="comments-section-{{ post.id }}">
+                <form class="comment-form" data-post-id="{{ post.id }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <textarea name="text" placeholder="أضف تعليق..." required></textarea>
+                    <button type="submit">إرسال</button>
+                </form>
+                
+                <div id="comments-{{ post.id }}">
+                    {% for comment in post.comments.all %}
+                    <div class="comment">
+                        <strong>{{ comment.author.username }}</strong>: {{ comment.text }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="create-post-btn" onclick="window.location.href='/create-post/'">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    // إعداد CSRF لتضمينه في جميع طلبات POST
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!(/^GET|HEAD|OPTIONS|TRACE$/i.test(settings.type))) {
+                xhr.setRequestHeader("X-CSRFToken", getCSRFToken());
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        // نظام الإعجابات
+        $(document).on('click', '.like-btn', function() {
+            const postId = $(this).data('post-id');
+            const likeIcon = $(this).find('i');
+            const likeCount = $(this).find('.like-count');
+
+            $.ajax({
+                url: '/like-post/',
+                type: 'POST',
+                data: {
+                    post_id: postId
+                },
+                success: function(response) {
+                    likeCount.text(response.likes_count);
+                    if (response.liked) {
+                        likeIcon.removeClass('far').addClass('fas');
+                    } else {
+                        likeIcon.removeClass('fas').addClass('far');
+                    }
+                },
+                error: function(xhr) {
+                    console.error("خطأ في نظام الإعجابات:", xhr.responseText);
+                    alert("حدث خطأ أثناء تنفيذ الإعجاب. الرجاء المحاولة لاحقاً.");
+                }
+            });
+        });
+
+        // نظام إظهار/إخفاء التعليقات
+        $(document).on('click', '.comment-toggle', function() {
+            const postId = $(this).data('post-id');
+            const commentsSection = $('#comments-section-' + postId);
+            commentsSection.toggleClass('show');
+            
+            // إغلاق جميع أقسام التعليقات الأخرى
+            $('.comments-section').not(commentsSection).removeClass('show');
+        });
+
+        // نظام التعليقات
+        $(document).on('submit', '.comment-form', function(e) {
+            e.preventDefault();
+
+            const form = $(this);
+            const postId = form.data('post-id');
+            const commentList = $('#comments-' + postId);
+
+            $.ajax({
+                url: '/add-comment/',
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    const commentHTML = `
+                        <div class="comment">
+                            <strong>${response.author}</strong>: ${response.text}
+                        </div>
+                    `;
+                    commentList.prepend(commentHTML);
+                    form.find('textarea').val('');
+                    
+                    // تحديث عدد التعليقات
+                    const commentCount = $('.comment-toggle[data-post-id="' + postId + '"] span');
+                    commentCount.text(parseInt(commentCount.text()) + 1);
+                },
+                error: function(xhr) {
+                    console.error("خطأ في نظام التعليقات:", xhr.responseText);
+                    alert("حدث خطأ أثناء إرسال التعليق. الرجاء المحاولة لاحقًا.");
+                }
+            });
+        });
+    });
+
+    // نظام المتابعة
+    $(document).on('click', '.follow-btn', function() {
+        const userId = $(this).data('user-id');
+        const followBtn = $(this);
+        
+        $.ajax({
+            url: '/follow-user/',
+            type: 'POST',
+            data: {
+                user_id: userId
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    if (response.is_following) {
+                        followBtn.text('متابع');
+                        followBtn.addClass('following');
+                    } else {
+                        followBtn.text('متابعة');
+                        followBtn.removeClass('following');
+                    }
+                }
+            },
+            error: function(xhr) {
+                console.error("خطأ في نظام المتابعة:", xhr.responseText);
+                alert("حدث خطأ أثناء تنفيذ المتابعة. الرجاء المحاولة لاحقاً.");
+            }
+        });
+    });
+
+// تحديث عدد الإشعارات غير المقروءة بشكل دوري
+function updateNotificationCount() {
+    $.ajax({
+        url: '/',
+        type: 'GET',
+        success: function(data) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data, 'text/html');
+            const countElement = doc.querySelector('.notification-badge');
+            const currentCount = $('.notification-badge').text();
+            
+            if (countElement) {
+                const newCount = countElement.textContent;
+                if (newCount !== currentCount) {
+                    $('.notification-badge').text(newCount);
+                    if (newCount > 0 && currentCount == 0) {
+                        // إشعار للمستخدم بوجود إشعارات جديدة
+                        alert(`لديك ${newCount} إشعارات جديدة`);
+                    }
+                }
+            } else {
+                $('.notification-badge').remove();
+            }
+        }
+    });
+}
+
+// تحديث كل 5 ثانية
+setInterval(updateNotificationCount, 5000);
+
+// عند النقر على زر الإشعارات، تمييزها كمقروءة
+$('.nav-item[href="/notifications/"]').on('click', function() {
+    $.ajax({
+        url: '/mark-notifications-read/',
+        type: 'POST',
+        success: function() {
+            $('.notification-badge').remove();
+        }
+    });
+});
+    </script>
+</body>
+</html>

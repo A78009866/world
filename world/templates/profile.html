@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            direction: rtl;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .profile-header {
+            background-color: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        
+        .profile-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-username {
+            color: #777;
+            margin-bottom: 15px;
+        }
+        
+        .profile-bio {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .profile-posts {
+            padding: 15px;
+            margin-bottom: 70px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-right: 10px;
+        }
+        
+        .post-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .post-time {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        
+        .post-content {
+            line-height: 1.5;
+        }
+        
+        .post-actions {
+            display: flex;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: 15px;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .post-action i {
+            margin-left: 5px;
+        }
+        
+        .main-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            background-color: var(--white);
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 12px;
+        }
+        
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .profile-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 25px;
+            }
+            
+            .profile-name {
+                font-size: 20px;
+            }
+        }
+        .comments-section {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            resize: none;
+        }
+
+        .comment-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment {
+            margin: 5px 0;
+            padding: 5px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .like-btn {
+            cursor: pointer;
+        }
+        .follow-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .follow-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .follow-btn.following {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.history.back()">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+        <h1>الملف الشخصي</h1>
+        <div></div> <!-- Empty div for alignment -->
+    </div>
+    
+    <div class="profile-header">
+        <div class="profile-avatar">{{ profile_user.username|first|upper }}</div>
+        <div class="profile-name">{{ profile_user.full_name }}</div>
+        <div class="profile-username">@{{ profile_user.username }}</div>
+        <div class="profile-bio">{{ profile_user.bio|default:"لا يوجد وصف" }}</div>
+        
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-number">{{ user_posts.count }}</div>
+                <div class="stat-label">منشورات</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="followers-count">{{ profile_user.followers.count }}</div>
+                <div class="stat-label">متابعون</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ profile_user.following.count }}</div>
+                <div class="stat-label">متابَعون</div>
+            </div>
+        </div>
+        {% if request.user != profile_user %}
+        <button id="follow-btn" class="follow-btn {% if request.user in profile_user.followers.all %}following{% endif %}" data-user-id="{{ profile_user.id }}">
+            {% if request.user in profile_user.followers.all %}
+                إلغاء المتابعة
+            {% else %}
+                متابعة
+            {% endif %}
+        </button>
+        {% endif %}
+    </div>
+    
+    <div class="profile-posts">
+        <div class="section-title">منشوراتي</div>
+        
+        {% for post in user_posts %}
+        <div class="post-card">
+            <div class="post-time">{{ post.created_at|timesince }} مضت</div>
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+            <div class="post-actions">
+                <div class="post-action like-btn" data-post-id="{{ post.id }}">
+                    <i class="{% if request.user in post.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>
+                    <span class="like-count">{{ post.likes.count }}</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>{{ post.comments.count }}</span>
+                </div>
+            </div>
+            
+            <!-- قسم التعليقات -->
+            <div class="comments-section">
+                <form class="comment-form" data-post-id="{{ post.id }}">
+                    {% csrf_token %}
+                    <textarea name="text" placeholder="أضف تعليق..." required></textarea>
+                    <button type="submit">إرسال</button>
+                </form>
+                <div id="comments-{{ post.id }}">
+                    {% for comment in post.comments.all %}
+                    <div class="comment">
+                        <strong>{{ comment.author.username }}</strong>: {{ comment.text }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; color: #777; margin-top: 30px;">
+            لا توجد منشورات حتى الآن
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="main-nav">
+        <a href="/" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="/profile/" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>الملف الشخصي</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>الإشعارات</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>الإعدادات</span>
+        </a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // نظام الإعجابات
+    $('.like-btn').click(function() {
+        const postId = $(this).data('post-id');
+        const likeIcon = $(this).find('i');
+        const likeCount = $(this).find('.like-count');
+        
+        $.ajax({
+            url: '/like-post/',
+            type: 'POST',
+            data: {
+                'post_id': postId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                likeCount.text(response.likes_count);
+                if (response.liked) {
+                    likeIcon.removeClass('far').addClass('fas');
+                } else {
+                    likeIcon.removeClass('fas').addClass('far');
+                }
+            }
+        });
+    });
+
+    // نظام التعليقات
+    $('.comment-form').submit(function(e) {
+        e.preventDefault();
+        const form = $(this);
+        const postId = form.data('post-id');
+        const commentList = $('#comments-' + postId);
+        
+        $.ajax({
+            url: '/add-comment/',
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                commentList.prepend(
+                    `<div class="comment">
+                        <strong>${response.author}</strong>: ${response.text}
+                    </div>`
+                );
+                form.find('textarea').val('');
+            }
+        });
+    });
+});
+
+// نظام المتابعة
+$('#follow-btn').click(function() {
+    const userId = $(this).data('user-id');
+    const followBtn = $(this);
+    
+    $.ajax({
+        url: '/follow-user/',
+        type: 'POST',
+        data: {
+            'user_id': userId,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+            if (response.status === 'success') {
+                if (response.is_following) {
+                    followBtn.text('إلغاء المتابعة');
+                    followBtn.addClass('following');
+                } else {
+                    followBtn.text('متابعة');
+                    followBtn.removeClass('following');
+                }
+                $('#followers-count').text(response.followers_count);
+            }
+        },
+        error: function(xhr) {
+            console.error("خطأ في نظام المتابعة:", xhr.responseText);
+        }
+    });
+});
+</script>
+</body>
+</html>

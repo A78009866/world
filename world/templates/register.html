@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل مستخدم جديد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --error-color: #e74c3c;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 100%;
+            width: 100%;
+            padding: 20px;
+            margin: 0 auto;
+        }
+        
+        .register-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 30px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo i {
+            font-size: 50px;
+            color: var(--primary-color);
+        }
+        
+        .logo h1 {
+            margin-top: 10px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .errorlist {
+            color: var(--error-color);
+            list-style: none;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 480px) {
+            .register-card {
+                padding: 20px;
+                margin-top: 20px;
+            }
+            
+            .logo i {
+                font-size: 40px;
+            }
+            
+            .logo h1 {
+                font-size: 20px;
+            }
+            
+            .form-group input {
+                padding: 12px;
+            }
+            
+            .submit-btn {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-card">
+            <div class="logo">
+                <i class="fas fa-user-plus"></i>
+                <h1>تسجيل مستخدم جديد</h1>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {% if field.name == 'password1' or field.name == 'password2' %}
+                            <div style="position: relative;">
+                                {{ field }}
+                                <span class="password-toggle" onclick="togglePassword('{{ field.auto_id }}')">
+                                    <i class="far fa-eye"></i>
+                                </span>
+                            </div>
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        
+                        {% if field.errors %}
+                            <ul class="errorlist">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <button type="submit" class="submit-btn">تسجيل</button>
+            </form>
+            
+            <div class="links">
+                <a href="/login/">لديك حساب بالفعل؟ سجل الدخول</a>
+                <a href="/">العودة إلى الصفحة الرئيسية</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function togglePassword(fieldId) {
+            const passwordInput = document.getElementById(fieldId);
+            const toggleIcon = passwordInput.nextElementSibling.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>
