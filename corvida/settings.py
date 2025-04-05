@@ -134,3 +134,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
+
+# تحليل Internal Database URL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  # استخدام PostgreSQL
+        'NAME': 'railway',  # اسم قاعدة البيانات
+        'USER': 'postgres',  # اسم المستخدم
+        'PASSWORD': 'eXVlJhxtTPMUGDLmtkJFKlleFdHPAdAf',  # كلمة المرور
+        'HOST': 'postgres.railway.internal',  # Hostname
+        'PORT': '5432',  # Port
+    }
+}
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.parse('postgresql://postgres:eXVlJhxtTPMUGDLmtkJFKlleFdHPAdAf@metro.proxy.rlwy.net:48290/railway')
+}
